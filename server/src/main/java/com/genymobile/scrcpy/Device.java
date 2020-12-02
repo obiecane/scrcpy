@@ -25,10 +25,16 @@ public final class Device {
     public static final int POWER_MODE_OFF = SurfaceControl.POWER_MODE_OFF;
     public static final int POWER_MODE_NORMAL = SurfaceControl.POWER_MODE_NORMAL;
 
+    /**
+     * 旋转监听
+     */
     public interface RotationListener {
         void onRotationChanged(int rotation);
     }
 
+    /**
+     * 剪贴板监听
+     */
     public interface ClipboardListener {
         void onClipboardTextChanged(String text);
     }
@@ -65,6 +71,7 @@ public final class Device {
         screenInfo = ScreenInfo.computeScreenInfo(displayInfo, options.getCrop(), options.getMaxSize(), options.getLockedVideoOrientation());
         layerStack = displayInfo.getLayerStack();
 
+        // 设置屏幕方向旋转监听
         serviceManager.getWindowManager().registerRotationWatcher(new IRotationWatcher.Stub() {
             @Override
             public void onRotationChanged(int rotation) {
@@ -80,6 +87,7 @@ public final class Device {
         }, displayId);
 
         if (options.getControl()) {
+            // 如果启用控制，则自动同步粘贴板内容到PC
             // If control is enabled, synchronize Android clipboard to the computer automatically
             ClipboardManager clipboardManager = serviceManager.getClipboardManager();
             if (clipboardManager != null) {

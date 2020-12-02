@@ -2,11 +2,27 @@ package com.genymobile.scrcpy;
 
 import android.graphics.Rect;
 
+/**
+ * 参数集合
+ */
 public class Options {
+
+    /**
+     * 日志等级
+     */
     private Ln.Level logLevel;
     private int maxSize;
+    /**
+     * 比特率
+     */
     private int bitRate;
+    /**
+     * 最大帧数
+     */
     private int maxFps;
+    /**
+     * 锁定视频方向
+     */
     private int lockedVideoOrientation;
     private boolean tunnelForward;
     private Rect crop;
@@ -14,7 +30,13 @@ public class Options {
     private boolean control;
     private int displayId;
     private boolean showTouches;
+    /**
+     * 保持唤醒（不息屏）
+     */
     private boolean stayAwake;
+    /**
+     * codec参数
+     */
     private String codecOptions;
 
     public Ln.Level getLogLevel() {

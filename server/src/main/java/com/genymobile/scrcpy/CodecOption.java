@@ -3,6 +3,9 @@ package com.genymobile.scrcpy;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 参数项
+ */
 public class CodecOption {
     private String key;
     private Object value;
@@ -20,6 +23,12 @@ public class CodecOption {
         return value;
     }
 
+    /**
+     * 解析参数项
+     * 这个方法只是在处理转义和切分，具体的解析方法在{@link CodecOption#parseOption(String)}
+     * @param codecOptions
+     * @return
+     */
     public static List<CodecOption> parse(String codecOptions) {
         if ("-".equals(codecOptions)) {
             return null;
@@ -66,6 +75,11 @@ public class CodecOption {
         return result;
     }
 
+    /**
+     * 解析一个参数项，如果参数项没有指定参数类型，那么默认则是int
+     * @param option
+     * @return
+     */
     private static CodecOption parseOption(String option) {
         int equalSignIndex = option.indexOf('=');
         if (equalSignIndex == -1) {

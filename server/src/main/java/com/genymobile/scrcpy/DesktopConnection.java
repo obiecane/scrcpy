@@ -11,6 +11,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * 代表一个桌面连接
+ * 里面有一个投屏socket，一个控制socket
+ */
 public final class DesktopConnection implements Closeable {
 
     private static final int DEVICE_NAME_FIELD_LENGTH = 64;
@@ -71,6 +75,7 @@ public final class DesktopConnection implements Closeable {
 
         DesktopConnection connection = new DesktopConnection(videoSocket, controlSocket);
         Size videoSize = device.getScreenInfo().getVideoSize();
+        // 连接建立成功之后，发送设备名、宽高
         connection.send(Device.getDeviceName(), videoSize.getWidth(), videoSize.getHeight());
         return connection;
     }
@@ -84,6 +89,14 @@ public final class DesktopConnection implements Closeable {
         controlSocket.close();
     }
 
+    /**
+     * 发送设备名、宽高
+     * 只在第一次建立连接后发送
+     * @param deviceName 设备名
+     * @param width 宽
+     * @param height 高
+     * @throws IOException
+     */
     private void send(String deviceName, int width, int height) throws IOException {
         byte[] buffer = new byte[DEVICE_NAME_FIELD_LENGTH + 4];
 

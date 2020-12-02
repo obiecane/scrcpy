@@ -80,10 +80,19 @@ public final class ScreenInfo {
         return new ScreenInfo(newContentRect, newUnlockedVideoSize, newDeviceRotation, lockedVideoOrientation);
     }
 
+    /**
+     * 计算屏幕信息
+     * @param displayInfo
+     * @param crop
+     * @param maxSize
+     * @param lockedVideoOrientation
+     * @return
+     */
     public static ScreenInfo computeScreenInfo(DisplayInfo displayInfo, Rect crop, int maxSize, int lockedVideoOrientation) {
         int rotation = displayInfo.getRotation();
         Size deviceSize = displayInfo.getSize();
         Rect contentRect = new Rect(0, 0, deviceSize.getWidth(), deviceSize.getHeight());
+        // 有指定区域
         if (crop != null) {
             if (rotation % 2 != 0) { // 180s preserve dimensions
                 // the crop (provided by the user) is expressed in the natural orientation

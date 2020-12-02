@@ -9,7 +9,8 @@ import java.io.IOException;
 /**
  * Handle the cleanup of scrcpy, even if the main process is killed.
  * <p>
- * This is useful to restore some state when scrcpy is closed, even on device disconnection (which kills the scrcpy process).
+ * This is useful to restore some state when scrcpy is closed,
+ * even on device disconnection (which kills the scrcpy process).
  */
 public final class CleanUp {
 
@@ -30,8 +31,12 @@ public final class CleanUp {
     }
 
     private static void startProcess(boolean disableShowTouches, int restoreStayOn, boolean restoreNormalPowerMode) throws IOException {
-        String[] cmd = {"app_process", "/", CleanUp.class.getName(), String.valueOf(disableShowTouches), String.valueOf(
-                restoreStayOn), String.valueOf(restoreNormalPowerMode)};
+        String[] cmd = {
+                "app_process", "/", CleanUp.class.getName(),
+                String.valueOf(disableShowTouches),
+                String.valueOf(restoreStayOn),
+                String.valueOf(restoreNormalPowerMode)
+        };
 
         ProcessBuilder builder = new ProcessBuilder(cmd);
         builder.environment().put("CLASSPATH", SERVER_PATH);

@@ -1,8 +1,21 @@
 package com.genymobile.scrcpy;
 
+
+/**
+ * 显示信息
+ */
 public final class DisplayInfo {
+    /**
+     * 显示屏id，0默认
+     */
     private final int displayId;
+    /**
+     * 显示屏大小，宽高
+     */
     private final Size size;
+    /**
+     * 方向
+     */
     private final int rotation;
     private final int layerStack;
     private final int flags;

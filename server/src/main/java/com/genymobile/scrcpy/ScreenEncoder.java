@@ -15,6 +15,10 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * 屏幕编码器
+ * 用于将屏幕输出编码成视频流
+ */
 public class ScreenEncoder implements Device.RotationListener {
 
     private static final int DEFAULT_I_FRAME_INTERVAL = 10; // seconds

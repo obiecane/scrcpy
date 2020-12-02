@@ -5,6 +5,10 @@ import com.genymobile.scrcpy.Size;
 
 import android.os.IInterface;
 
+/**
+ * 显示管理器
+ * 主要是获取屏幕宽高、显示方向等等
+ */
 public final class DisplayManager {
     private final IInterface manager;
 

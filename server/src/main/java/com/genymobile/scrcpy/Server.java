@@ -20,9 +20,12 @@ public final class Server {
 
     private static void scrcpy(Options options) throws IOException {
         Ln.i("Device: " + Build.MANUFACTURER + " " + Build.MODEL + " (Android " + Build.VERSION.RELEASE + ")");
+        // 创建设备对象，初始化设备信息，初始化监听
         final Device device = new Device(options);
         List<CodecOption> codecOptions = CodecOption.parse(options.getCodecOptions());
 
+        // 设置是否需要在停止后关闭触摸点显示
+        // 如果本来是没有开的，这次命令开启了，那么在进程结束后就关掉
         boolean mustDisableShowTouchesOnCleanUp = false;
         int restoreStayOn = -1;
         if (options.getShowTouches() || options.getStayAwake()) {
@@ -109,17 +112,37 @@ public final class Server {
         }).start();
     }
 
+    /**
+     * 解析参数， 参数的数量、顺序都是固定的
+     * 版本号
+     * 日志级别
+     * maxSize
+     * 比特率
+     * 最大帧数
+     * 视频方向锁定
+     * 是否作为服务端
+     * crop指定区域
+     * 是否发送帧元数据
+     * 是否开启控制
+     * id
+     * 是否显示触摸点
+     * 是否保持唤醒
+     * codec参数
+     */
     private static Options createOptions(String... args) {
         if (args.length < 1) {
             throw new IllegalArgumentException("Missing client version");
         }
 
+        // 首先判断参数里的版本号是否匹配，这是为了确保服务端和客户端配套
+        // 因为不配套的可能会出现奇奇怪怪的bug
         String clientVersion = args[0];
         if (!clientVersion.equals(BuildConfig.VERSION_NAME)) {
             throw new IllegalArgumentException(
                     "The server version (" + BuildConfig.VERSION_NAME + ") does not match the client " + "(" + clientVersion + ")");
         }
 
+        // 指定参数个数，确保需要的配置都有指定
         final int expectedParameters = 14;
         if (args.length != expectedParameters) {
             throw new IllegalArgumentException("Expecting " + expectedParameters + " parameters");
@@ -218,10 +241,13 @@ public final class Server {
             }
         });
 
+        // 解析参数
         Options options = createOptions(args);
 
+        // 根据参数指定日志等级
         Ln.initLogLevel(options.getLogLevel());
 
+        // 启动scrcpy
         scrcpy(options);
     }
 }
